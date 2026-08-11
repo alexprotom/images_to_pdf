@@ -2,13 +2,13 @@
 
 Combine all images in a folder into a single PDF.
 
-Drop the tool into a folder with `.png` / `.jpg` / `.jpeg` files and run it — it collects the images, sorts them alphabetically by filename (case-insensitive), and writes them as one `combined.pdf` in the same folder, one image per page. Each page is sized to match its image at 300 DPI, and images keep their full resolution.
+Drop the tool into a folder with `.png` / `.jpg` / `.jpeg` files and run it. It collects the images, sorts them alphabetically by filename (case-insensitive), and writes them as one `combined.pdf` in the same folder, one image per page. Each page is sized to match its image at 300 DPI, and images keep their full resolution.
 
 Two implementations are included: the original Python script and a Rust rewrite that builds into a single self-contained `.exe` with no runtime dependencies.
 
 ## Rust version (recommended)
 
-A standalone executable — no Python or any other runtime needed on the machine where it runs.
+A standalone executable, no Python or any other runtime needed on the machine where it runs.
 
 ### Dependencies
 
@@ -35,7 +35,7 @@ Copy `images_to_pdf.exe` into the folder with your images and double-click it (o
 
 ### Note on image quality
 
-The code deliberately overrides `printpdf`'s default save options. The library's `PdfSaveOptions::default()` caps every image at ~2 MB of raw pixel data, downscaling anything larger than roughly 950×700 px with nearest-neighbor resampling before re-encoding at JPEG quality 0.85 — which visibly degrades photos and scans. This tool instead saves with no size cap and JPEG quality 0.95, so images keep their original resolution. For fully lossless (but much larger) output, see the comment in `src/main.rs` about `ImageCompression::Flate`.
+The code deliberately overrides `printpdf`'s default save options. The library's `PdfSaveOptions::default()` caps every image at ~2 MB of raw pixel data, downscaling anything larger than roughly 950×700 px with nearest-neighbor resampling before re-encoding at JPEG quality 0.85, which visibly degrades photos and scans. This tool instead saves with no size cap and JPEG quality 0.95, so images keep their original resolution. For fully lossless (but much larger) output, see the comment in `src/main.rs` about `ImageCompression::Flate`.
 
 ## Python version
 
@@ -67,8 +67,7 @@ It writes `combined.pdf` into the current folder. Images with transparency (RGBA
 
 ## Differences between the two versions
 
-Both versions find the same files, sort them the same way, and produce one page per image. The Rust version sizes pages at 300 DPI (a 3000×2400 px image becomes a 254×203 mm page) and keeps transparency as a PDF soft mask rendered over the white page; the Python version uses Pillow's default 72 DPI page sizing and flattens transparency onto white before embedding. The Rust version also pauses for Enter on exit — including on errors — so the console window never closes before you can read what happened.
-
+Both versions find the same files, sort them the same way, and produce one page per image. The Rust version sizes pages at 300 DPI (a 3000×2400 px image becomes a 254×203 mm page) and keeps transparency as a PDF soft mask rendered over the white page; the Python version uses Pillow's default 72 DPI page sizing and flattens transparency onto white before embedding.
 ## License
 
 [MIT](LICENSE) © 2026 Alexander Pryanichnikov
